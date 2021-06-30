@@ -15,12 +15,21 @@ namespace ConsoleUI
             //AddCarMethod();
             //DeleteCarMethod(carManager);
             //CarUpdateMethod(carManager);
-            
+
             //Araç Listesini Getirme Metodu
-            foreach (var cars in carManager.GetCarDetails())
+
+            var result = carManager.GetCarDetails();
+            if (result.Success == true)
             {
-                Console.WriteLine("Marka: " + cars.BrandName + "\nModel: " + cars.ModelName + "\nRenk: " + cars.ColorName + "\nAraç Özellikleri: " + cars.Description + "\nAraç Fiyatı: " + cars.DailyPrice);
-                Console.WriteLine("--------------------------------------------------------------------------------------------------");
+                foreach (var cars in carManager.GetCarDetails().Data)
+                {
+                    Console.WriteLine("Marka: " + cars.BrandName + "\nModel: " + cars.ModelName + "\nRenk: " + cars.ColorName + "\nAraç Özellikleri: " + cars.Description + "\nAraç Fiyatı: " + cars.DailyPrice);
+                    Console.WriteLine("--------------------------------------------------------------------------------------------------");
+                }
+            }
+            else
+            {
+                Console.WriteLine(result.Message);
             }
 
 
@@ -29,7 +38,7 @@ namespace ConsoleUI
 
         private static void CarUpdateMethod(CarManager carManager)
         {
-            foreach (var item in carManager.GetById(5))
+            foreach (var item in carManager.GetById(5).Data)
             {
                 item.ModelName = "Ford";
                 item.BrandId = 18;
@@ -43,7 +52,7 @@ namespace ConsoleUI
 
         private static void DeleteCarMethod(CarManager carManager)
         {
-            foreach (var item in carManager.GetById(4))
+            foreach (var item in carManager.GetById(4).Data)
             {
                 carManager.Delete(item);
             }
