@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,22 +22,25 @@ namespace Business.Concrete
 
         public void Add(Car car)
         {
- 
-            if (car.CarName.Length >= 2 && car.DailyPrice > 0)
+            if (car.ModelName.Length >= 2 && car.DailyPrice > 0)
             {
                 _carDal.Add(car);
-                Console.WriteLine("Car added successfully.");
+                Console.WriteLine("Araç başarıyla sisteme eklendi.");
+            }
+            else if (car.ModelName.Length < 2)
+            {
+                Console.WriteLine("Araç ismi 2 karakterden kısa olamaz.");
             }
             else
             {
-                Console.WriteLine("The car name must be less than 2 characters and the vehicle price must be greater than 0.");
+                Console.WriteLine("Araç ücreti 0'ın üzerinde olmalıdır.");
             }
-            
         }
 
         public void Delete(Car car)
         {
-            throw new NotImplementedException();
+            _carDal.Delete(car);
+            Console.WriteLine("Araç başarıyla sistemden silindi.");
         }
 
         public List<Car> GetAll()
@@ -44,10 +48,13 @@ namespace Business.Concrete
             return _carDal.GetAll();
         }
 
-        public List<Car> GetById(int id)
+        public void Update(Car car)
         {
-            return _carDal.GetAll(p => p.CarId == id);
+            _carDal.Update(car);
+            Console.WriteLine("Araç bilgileri başarıyla değiştirildi.");
         }
+
+        
 
         public List<Car> GetCarsByBrandId(int id)
         {
@@ -59,9 +66,14 @@ namespace Business.Concrete
             return _carDal.GetAll(p => p.ColorId == id);
         }
 
-        public void Update(Car car)
+        public List<CarDetailDto> GetCarDetails()
         {
-            throw new NotImplementedException();
+            return _carDal.GetCarDetails();
+        }
+
+        public List<Car> GetById(int id)
+        {
+            return _carDal.GetAll(p => p.CarId == id);
         }
     }
 }
