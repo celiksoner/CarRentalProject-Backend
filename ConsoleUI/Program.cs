@@ -10,20 +10,70 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            CarManager carManager = new(new EfCarDal());
+            //CarManager carManager = new(new EfCarDal());
 
             //AddCarMethod();
             //DeleteCarMethod(carManager);
             //CarUpdateMethod(carManager);
+            //GetCarListMethod(carManager);
 
-            //Araç Listesini Getirme Metodu
+            //AddUserMethod();
 
+            //AddCustomerMethod();
+
+
+            //customerManager.GetAll();
+            
+            RentalManager rentalManager = new(new EfRentalDal());
+
+            Rental rental1 = new();
+            rental1.CarId = 9;
+            rental1.CustomerId = 3;
+            rental1.RentDate = new DateTime(2021, 07, 19);
+            rental1.ReturnDate = new DateTime(2021, 07, 25);
+
+            var result = rentalManager.Add(rental1);
+
+            Console.WriteLine(result.Message);
+
+            
+
+
+
+
+
+        }
+
+        private static void AddCustomerMethod()
+        {
+            CustomerManager customerManager = new(new EfCustomerDal());
+            customerManager.Add(new Customer
+            {
+                UserId = 1,
+                CompanyName = "KodlamaIO"
+            });
+        }
+
+        private static void AddUserMethod()
+        {
+            UserManager userManager = new(new EfUserDal());
+            userManager.Add(new User
+            {
+                FirstName = "Soner",
+                LastName = "Çelik",
+                Email = "snrclk94@outlook.com",
+                Password = "soner1903"
+            });
+        }
+
+        private static void GetCarListMethod(CarManager carManager)
+        {
             var result = carManager.GetCarDetails();
             if (result.Success == true)
             {
                 foreach (var cars in carManager.GetCarDetails().Data)
                 {
-                    Console.WriteLine("Marka: " + cars.BrandName + "\nModel: " + cars.ModelName + "\nRenk: " + cars.ColorName + "\nAraç Özellikleri: " + cars.Description + "\nAraç Fiyatı: " + cars.DailyPrice);
+                    Console.WriteLine("Marka: " + cars.BrandName + "\nModel: " + cars.ModelName + "\nRenk: " + cars.ColorName + "\nAraç Özellikleri: " + cars.Description + "\nAraç Fiyatı: " + cars.DailyPrice + "\nModel Yılı: " + cars.ModelYear);
                     Console.WriteLine("--------------------------------------------------------------------------------------------------");
                 }
             }
@@ -31,31 +81,34 @@ namespace ConsoleUI
             {
                 Console.WriteLine(result.Message);
             }
-
-
-
         }
 
         private static void CarUpdateMethod(CarManager carManager)
         {
-            foreach (var item in carManager.GetById(5).Data)
-            {
-                item.ModelName = "Ford";
-                item.BrandId = 18;
-                item.ColorId = 3;
-                item.DailyPrice = 120;
-                item.Description = "Dizel, Otomatik";
+            var result = carManager.GetById(5);
 
-                carManager.Update(item);
+            if (result.Success == true)
+            {
+                var carDetail = carManager.GetById(5).Data;
+                carDetail.ModelName = "Ford";
+                carDetail.BrandId = 18;
+                carDetail.ColorId = 3;
+                carDetail.DailyPrice = 120;
+                carDetail.Description = "Dizel, Otomatik";
+                carManager.Update(carDetail);
+                Console.WriteLine(result.Message);
             }
+            
         }
 
         private static void DeleteCarMethod(CarManager carManager)
         {
-            foreach (var item in carManager.GetById(4).Data)
-            {
-                carManager.Delete(item);
-            }
+            var result = carManager.GetById(5);
+            Console.WriteLine(result);
+            var carDetail = carManager.GetById(5).Data;
+            carManager.Delete(carDetail);
+            Console.WriteLine(result.Success);
+            
         }
 
         private static void AddCarMethod()
@@ -63,11 +116,11 @@ namespace ConsoleUI
             CarManager carManager = new(new EfCarDal());
             carManager.Add(new Car
             {
-                ModelName = "Renault Clio",
-                ColorId = 2,
+                ModelName = "Megane",
+                ColorId = 4,
                 BrandId = 2,
-                DailyPrice = 100,
-                Description = "Benzin, Manuel",
+                DailyPrice = 150,
+                Description = "Dizel, Otomatik",
                 ModelYear = 2013
             });
         }

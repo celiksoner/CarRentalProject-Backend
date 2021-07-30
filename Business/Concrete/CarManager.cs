@@ -19,7 +19,6 @@ namespace Business.Concrete
         public CarManager(ICarDal carDal)
         {
             _carDal = carDal;
-
         }
 
         public IResult Add(Car car)
@@ -69,9 +68,10 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails());
         }
 
-        public IDataResult<List<Car>> GetById(int id)
+        public IDataResult<Car> GetById(int id)
         {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(p => p.CarId == id));
+            return new SuccessDataResult<Car>(_carDal.Get(c => c.CarId == id));
         }
+
     }
 }
