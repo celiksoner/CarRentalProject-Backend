@@ -13,7 +13,7 @@ namespace Business.Concrete
 {
     public class BrandManager : IBrandService
     {
-        IBrandDal _brandDal;
+        private IBrandDal _brandDal;
 
         public BrandManager(IBrandDal brandDal)
         {
@@ -40,15 +40,12 @@ namespace Business.Concrete
 
         public IDataResult<List<Brand>> GetAll()
         {
-            _brandDal.GetAll();
-            return new SuccessDataResult<List<Brand>>(Messages.BrandsListed);
+            return new SuccessDataResult<List<Brand>>(_brandDal.GetAll(), Messages.BrandsListed);
         }
 
         public IDataResult<List<Brand>> GetById(int id)
         {
             return new SuccessDataResult<List<Brand>>(_brandDal.GetAll(b => b.BrandId == id));
         }
-
-        
     }
 }

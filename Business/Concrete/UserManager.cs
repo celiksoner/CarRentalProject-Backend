@@ -13,7 +13,7 @@ namespace Business.Concrete
 {
     public class UserManager : IUserService
     {
-        IUserDal _userDal;
+        private IUserDal _userDal;
 
         public UserManager(IUserDal userDal)
         {
@@ -40,8 +40,7 @@ namespace Business.Concrete
 
         public IDataResult<List<User>> GetAll()
         {
-            _userDal.GetAll();
-            return new SuccessDataResult<List<User>>(Messages.UsersListed);
+            return new SuccessDataResult<List<User>>(_userDal.GetAll(), Messages.UsersListed);
         }
 
         public IDataResult<User> GetById(int id)

@@ -13,8 +13,8 @@ namespace Business.Concrete
 {
     public class RentalManager : IRentalService
     {
-        IRentalDal _rentalDal;
-        List<Rental> deneme = new List<Rental>();
+        private IRentalDal _rentalDal;
+        private List<Rental> deneme = new List<Rental>();
 
         public RentalManager(IRentalDal rentalDal)
         {
@@ -23,18 +23,17 @@ namespace Business.Concrete
 
         public IResult Add(Rental rental)
         {
-            
             deneme = _rentalDal.GetAll();
 
             foreach (var item in deneme)
             {
-                if(rental.CarId == item.CarId)
+                if (rental.CarId == item.CarId)
                 {
-                    if(item.ReturnDate > rental.RentDate)
+                    if (item.ReturnDate > rental.RentDate)
                     {
                         return new ErrorResult(Messages.RentalError);
                     }
-                }         
+                }
             }
             _rentalDal.Add(rental);
             return new SuccessResult(Messages.RentalAdded);
@@ -54,15 +53,12 @@ namespace Business.Concrete
 
         public IDataResult<List<Rental>> GetAll()
         {
-            _rentalDal.GetAll();
-            return new SuccessDataResult<List<Rental>>(Messages.RentalsListed);
+            return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll(), Messages.RentalsListed);
         }
 
         public IDataResult<Rental> GetById(int id)
         {
             return new SuccessDataResult<Rental>(_rentalDal.Get(r => r.RentalId == id));
         }
-
-        
     }
 }

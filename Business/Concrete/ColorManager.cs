@@ -13,7 +13,7 @@ namespace Business.Concrete
 {
     public class ColorManager : IColorService
     {
-        IColorDal _colorDal;
+        private IColorDal _colorDal;
 
         public ColorManager(IColorDal colorDal)
         {
@@ -24,7 +24,6 @@ namespace Business.Concrete
         {
             _colorDal.Add(color);
             return new SuccessResult(Messages.ColorAdded);
-            
         }
 
         public IResult Delete(Color color)
@@ -41,15 +40,12 @@ namespace Business.Concrete
 
         public IDataResult<List<Color>> GetAll()
         {
-            _colorDal.GetAll();
-            return new SuccessDataResult<List<Color>>(Messages.ColorsListed);
+            return new SuccessDataResult<List<Color>>(_colorDal.GetAll(), Messages.ColorsListed);
         }
 
-        public IDataResult<List<Color>> GetById(int id)
+        public IDataResult<Color> GetById(int id)
         {
-            return new SuccessDataResult<List<Color>>(_colorDal.GetAll(c => c.ColorId == id));
+            return new SuccessDataResult<Color>(_colorDal.Get(c => c.ColorId == id));
         }
-
-        
     }
 }

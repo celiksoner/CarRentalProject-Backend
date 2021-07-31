@@ -6,9 +6,9 @@ using Entities.Concrete;
 
 namespace ConsoleUI
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             //CarManager carManager = new(new EfCarDal());
 
@@ -21,12 +21,11 @@ namespace ConsoleUI
 
             //AddCustomerMethod();
 
-
             //customerManager.GetAll();
-            
-            RentalManager rentalManager = new(new EfRentalDal());
 
-            Rental rental1 = new();
+            RentalManager rentalManager = new RentalManager(new EfRentalDal());
+
+            Rental rental1 = new Rental();
             rental1.CarId = 9;
             rental1.CustomerId = 3;
             rental1.RentDate = new DateTime(2021, 07, 19);
@@ -35,18 +34,11 @@ namespace ConsoleUI
             var result = rentalManager.Add(rental1);
 
             Console.WriteLine(result.Message);
-
-            
-
-
-
-
-
         }
 
         private static void AddCustomerMethod()
         {
-            CustomerManager customerManager = new(new EfCustomerDal());
+            CustomerManager customerManager = new CustomerManager(new EfCustomerDal());
             customerManager.Add(new Customer
             {
                 UserId = 1,
@@ -56,7 +48,7 @@ namespace ConsoleUI
 
         private static void AddUserMethod()
         {
-            UserManager userManager = new(new EfUserDal());
+            UserManager userManager = new UserManager(new EfUserDal());
             userManager.Add(new User
             {
                 FirstName = "Soner",
@@ -98,7 +90,6 @@ namespace ConsoleUI
                 carManager.Update(carDetail);
                 Console.WriteLine(result.Message);
             }
-            
         }
 
         private static void DeleteCarMethod(CarManager carManager)
@@ -108,12 +99,11 @@ namespace ConsoleUI
             var carDetail = carManager.GetById(5).Data;
             carManager.Delete(carDetail);
             Console.WriteLine(result.Success);
-            
         }
 
         private static void AddCarMethod()
         {
-            CarManager carManager = new(new EfCarDal());
+            CarManager carManager = new CarManager(new EfCarDal());
             carManager.Add(new Car
             {
                 ModelName = "Megane",
