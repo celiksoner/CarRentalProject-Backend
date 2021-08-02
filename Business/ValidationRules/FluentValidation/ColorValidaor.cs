@@ -8,5 +8,13 @@ namespace Business.ValidationRules.FluentValidation
 {
     public class ColorValidator : AbstractValidator<Color>
     {
+        public ColorValidator()
+        {
+            //Kurallar buraya yazılacak.Örnek kurallar aşağıdaki gibidir.
+            //RuleFor(p => p.ProductName).NotEmpty();
+            //RuleFor(p => p.ProductName).MinimumLength(2);
+            //RuleFor(p => p.UnitPrice).NotEmpty();
+            //RuleFor(p => p.UnitPrice).GreaterThan(0);
+        }
     }
 }
