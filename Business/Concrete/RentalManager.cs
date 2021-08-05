@@ -2,6 +2,7 @@
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -16,7 +17,6 @@ namespace Business.Concrete
     public class RentalManager : IRentalService
     {
         private IRentalDal _rentalDal;
-        private List<Rental> deneme = new List<Rental>();
 
         public RentalManager(IRentalDal rentalDal)
         {
@@ -26,19 +26,10 @@ namespace Business.Concrete
         [ValidationAspect(typeof(RentalValidator))]
         public IResult Add(Rental rental)
         {
-            deneme = _rentalDal.GetAll();
+            BusinessRules.Run(CheckIfCarRentalStatus(rental), CheckIfDeneme(rental));
 
-            foreach (var item in deneme)
-            {
-                if (rental.CarId == item.CarId)
-                {
-                    if (item.ReturnDate > rental.RentDate)
-                    {
-                        return new ErrorResult(Messages.RentalError);
-                    }
-                }
-            }
             _rentalDal.Add(rental);
+
             return new SuccessResult(Messages.RentalAdded);
         }
 
@@ -62,6 +53,34 @@ namespace Business.Concrete
         public IDataResult<Rental> GetById(int id)
         {
             return new SuccessDataResult<Rental>(_rentalDal.Get(r => r.RentalId == id));
+        }
+
+        private IResult CheckIfCarRentalStatus(Rental rental)
+        {
+            var deneme = _rentalDal.GetAll();
+
+            foreach (var item in deneme)
+            {
+                if (rental.CarId == item.CarId)
+                {
+                    if (item.ReturnDate > rental.RentDate)
+                    {
+                        return new ErrorResult(Messages.RentalError);
+                    }
+                }
+            }
+            return new SuccessResult();
+        }
+
+        private IResult CheckIfDeneme(Rental rental)
+        {
+            var deneme = _rentalDal.GetAll(r => r.CarId == 11).Any();
+
+            if (deneme)
+            {
+                return new ErrorResult("Bu araba kiralanamaz.");
+            }
+            return new SuccessResult();
         }
     }
 }
