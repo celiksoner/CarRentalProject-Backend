@@ -3,6 +3,7 @@ using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.InMemory;
 using System;
 using Entities.Concrete;
+using Core.Entities.Concrete;
 
 namespace ConsoleUI
 {
@@ -22,7 +23,7 @@ namespace ConsoleUI
             //AddCustomerMethod();
 
             //customerManager.GetAll();
-
+            /*
             RentalManager rentalManager = new RentalManager(new EfRentalDal());
 
             Rental rental1 = new Rental();
@@ -34,8 +35,10 @@ namespace ConsoleUI
             var result = rentalManager.Add(rental1);
 
             Console.WriteLine(result.Message);
+            */
         }
 
+        /*
         private static void AddCustomerMethod()
         {
             CustomerManager customerManager = new CustomerManager(new EfCustomerDal());
@@ -114,5 +117,6 @@ namespace ConsoleUI
                 ModelYear = 2013
             });
         }
+        */
     }
 }

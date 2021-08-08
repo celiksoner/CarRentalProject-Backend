@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Core.Entities.Concrete;
 using Entities.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,6 +21,7 @@ namespace WebAPI.Controllers
             _userService = userService;
         }
 
+        /*
         [HttpPost("add")]
         public IActionResult Add(User user)
         {
@@ -74,5 +76,6 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result.Message);
         }
+        */
     }
 }
