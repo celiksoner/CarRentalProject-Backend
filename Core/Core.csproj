@@ -17,4 +17,8 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.12.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="CrossCuttingConcerns\Caching\Redis\" />
+  </ItemGroup>
+
 </Project>
