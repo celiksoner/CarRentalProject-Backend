@@ -19,5 +19,8 @@ namespace Business.Abstract
         IDataResult<List<Brand>> GetAll();
 
         IDataResult<Brand> GetById(int id);
+
+        //Transaction Test Method
+        IResult AddTransactionalTest(Brand brand);
     }
 }
