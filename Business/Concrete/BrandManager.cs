@@ -55,7 +55,7 @@ namespace Business.Concrete
         }
 
         [CacheAspect] //key, value
-        [PerformanceAspect(5)]
+        //[PerformanceAspect(5)]
         public IDataResult<List<Brand>> GetAll()
         {
             return new SuccessDataResult<List<Brand>>(_brandDal.GetAll(), Messages.BrandsListed);
