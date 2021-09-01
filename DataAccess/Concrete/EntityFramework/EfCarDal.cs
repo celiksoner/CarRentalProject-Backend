@@ -2,13 +2,10 @@
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.Concrete.EntityFramework
 {
@@ -22,7 +19,7 @@ namespace DataAccess.Concrete.EntityFramework
                          on c.BrandId equals b.BrandId
                          join clr in context.Colors
                          on c.ColorId equals clr.ColorId
-                         select new CarDetailDto { CarId = c.CarId, BrandId = c.BrandId, ModelName = c.ModelName, BrandName = b.BrandName, DailyPrice = c.DailyPrice, Description = c.Description, ColorName = clr.ColorName, ModelYear = c.ModelYear };
+                         select new CarDetailDto { CarId = c.CarId, BrandId = c.BrandId, ModelName = c.ModelName, BrandName = b.BrandName, DailyPrice = c.DailyPrice, Description = c.Description, ColorName = clr.ColorName, ModelYear = c.ModelYear, CarImage = (from i in context.CarImages where (c.CarId == i.CarId) select i.ImagePath).FirstOrDefault() };
             return filter == null ? result.ToList() : result.Where(filter).ToList();
         }
     }

@@ -48,30 +48,30 @@ namespace Business.Concrete
 
         public IResult Delete(CarImage carImage)
         {
-            try
-            {
-                var image = _carImageDal.Get(c => c.CarImageId == carImage.CarImageId);
-                if (image == null)
-                {
-                    return new ErrorResult(Messages.CarImageNotFound);
-                }
-                _carImageDal.Delete(carImage);
-                return new SuccessResult(Messages.CarImageDeleted);
-            }
-            catch (Exception)
+            /*try
+            {*/
+            var image = _carImageDal.Get(c => c.CarImageId == carImage.CarImageId);
+            if (image == null)
             {
                 return new ErrorResult(Messages.CarImageNotFound);
             }
+            _carImageDal.Delete(carImage);
+            return new SuccessResult(Messages.CarImageDeleted);
+            /*}
+            catch (Exception)
+            {
+                return new ErrorResult(Messages.CarImageNotFound);
+            }*/
         }
 
         public IResult Update(IFormFile file, CarImage carImage)
         {
-            var imageDelete = _carImageDal.Get(c => c.CarImageId == carImage.CarImageId);
-            if (imageDelete == null)
+            var isImage = _carImageDal.Get(c => c.CarImageId == carImage.CarImageId);
+            if (isImage == null)
             {
-                return new ErrorResult("Bulunamadı");
+                return new ErrorResult(Messages.CarImageNotFound);
             }
-            var updatedFile = FileHelper.Update(file, imageDelete.ImagePath);
+            var updatedFile = FileHelper.Update(file, isImage.ImagePath);
             if (!updatedFile.Success)
             {
                 return new ErrorResult(updatedFile.Message);
@@ -87,9 +87,9 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll(), Messages.CarImageListed);
         }
 
-        public IDataResult<CarImage> GetById(int carImageId)
+        public IDataResult<CarImage> GetById(int carId)
         {
-            return new SuccessDataResult<CarImage>(_carImageDal.Get(c => c.CarImageId == carImageId));
+            return new SuccessDataResult<CarImage>(_carImageDal.Get(c => c.CarId == carId));
         }
 
         public IDataResult<List<CarImage>> GetImagesByCarId(int carId)
@@ -117,7 +117,7 @@ namespace Business.Concrete
         {
             try
             {
-                string path = @"\Images\default.jpeg";
+                string path = @"\images\default.jpg";
                 var result = _carImageDal.GetAll(c => c.CarId == id).Any();
                 if (!result)
                 {
