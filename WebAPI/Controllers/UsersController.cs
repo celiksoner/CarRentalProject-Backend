@@ -21,7 +21,6 @@ namespace WebAPI.Controllers
             _userService = userService;
         }
 
-        /*
         [HttpPost("add")]
         public IActionResult Add(User user)
         {
@@ -72,10 +71,20 @@ namespace WebAPI.Controllers
             var result = _userService.GetById(id);
             if (result.Success)
             {
-                return Ok(result.Data);
+                return Ok(result);
             }
-            return BadRequest(result.Message);
+            return BadRequest(result);
         }
-        */
+
+        [HttpGet("getbymail")]
+        public IActionResult GetByMail(string email)
+        {
+            var result = _userService.GetByMail(email);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
     }
 }

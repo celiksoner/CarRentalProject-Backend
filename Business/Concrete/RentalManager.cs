@@ -27,7 +27,7 @@ namespace Business.Concrete
         [ValidationAspect(typeof(RentalValidator))]
         public IResult Add(Rental rental)
         {
-            BusinessRules.Run(CheckIfCarRentalStatus(rental), CheckIfDeneme(rental));
+            BusinessRules.Run(CheckIfCarRentalStatus(rental));
 
             _rentalDal.Add(rental);
 

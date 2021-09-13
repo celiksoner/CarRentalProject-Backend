@@ -32,5 +32,7 @@ namespace Business.Abstract
         IDataResult<List<CarDetailDto>> GetCarDetailsByBrandName(string brandName);
 
         IDataResult<List<CarDetailDto>> GetCarDetailsByColorName(string colorName);
+
+        IDataResult<List<CarDetailDto>> GetCarsByBrandNameAndColorName(string brandName, string colorName);
     }
 }

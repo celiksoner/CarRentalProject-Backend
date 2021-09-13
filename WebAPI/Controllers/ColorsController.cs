@@ -70,9 +70,9 @@ namespace WebAPI.Controllers
             var result = _colorService.GetById(id);
             if (result.Success)
             {
-                return Ok(result.Data);
+                return Ok(result);
             }
-            return BadRequest(result.Message);
+            return BadRequest(result);
         }
     }
 }
