@@ -5,14 +5,13 @@ using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Linq.Expressions;
 
 namespace DataAccess.Concrete.EntityFramework
 {
     public class EfRentalDal : EfEntityRepositoryBase<Rental, DatabaseContext>, IRentalDal
     {
-        public List<RentalDetailDto> GetRentalDetails()
+        public List<RentalDetailDto> GetRentalDetails(Expression<Func<RentalDetailDto, bool>> filter = null)
         {
             using DatabaseContext context = new DatabaseContext();
             var result = from r in context.Rentals
@@ -24,8 +23,8 @@ namespace DataAccess.Concrete.EntityFramework
                          on cr.BrandId equals br.BrandId
                          join u in context.Users
                          on cs.UserId equals u.Id
-                         select new RentalDetailDto { RentalId = r.RentalId, BrandName = br.BrandName, CustomerName = u.FirstName + " " + u.LastName, CompanyName = cs.CompanyName,  RentDate = r.RentDate, ReturnDate = r.ReturnDate };
-            return result.ToList();
+                         select new RentalDetailDto { RentalId = r.RentalId, BrandName = br.BrandName, CustomerName = u.FirstName + " " + u.LastName, CompanyName = cs.CompanyName, RentDate = r.RentDate, ReturnDate = r.ReturnDate };
+            return filter == null ? result.ToList() : result.Where(filter).ToList();
         }
     }
 }

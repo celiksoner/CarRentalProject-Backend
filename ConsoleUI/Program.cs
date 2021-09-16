@@ -11,7 +11,7 @@ namespace ConsoleUI
     {
         private static void Main(string[] args)
         {
-            RentalManager rentalManager = new RentalManager(new EfRentalDal());
+            /*RentalManager rentalManager = new RentalManager(new EfRentalDal());
 
             var result = rentalManager.GetRentalDetails();
             if (result.Success == true)

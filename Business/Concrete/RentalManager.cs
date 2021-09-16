@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
@@ -21,7 +22,7 @@ namespace Business.Concrete
 
         public RentalManager(IRentalDal rentalDal)
         {
-            this._rentalDal = rentalDal;
+            _rentalDal = rentalDal;
         }
 
         [ValidationAspect(typeof(RentalValidator))]
@@ -56,6 +57,11 @@ namespace Business.Concrete
             return new SuccessDataResult<Rental>(_rentalDal.Get(r => r.RentalId == id));
         }
 
+        public IDataResult<List<RentalDetailDto>> GetRentalDetails()
+        {
+            return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalDetails());
+        }
+
         private IResult CheckIfCarRentalStatus(Rental rental)
         {
             var deneme = _rentalDal.GetAll();
@@ -73,20 +79,8 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        private IResult CheckIfDeneme(Rental rental)
-        {
-            var deneme = _rentalDal.GetAll(r => r.CarId == 11).Any();
+      
 
-            if (deneme)
-            {
-                return new ErrorResult("Bu araba kiralanamaz.");
-            }
-            return new SuccessResult();
-        }
-
-        public IDataResult<List<RentalDetailDto>> GetRentalDetails()
-        {
-            return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalDetails());
-        }
+      
     }
 }
